@@ -8,17 +8,17 @@ export class MoviesService {
   getAll(): Movie[] {
     return this.movies;
   }
-  getOne(id: string): Movie {
-    const movie = this.movies.find((movie) => movie.id === parseInt(id));
+  getOne(id: number): Movie {
+    const movie = this.movies.find((movie) => movie.id === id);
     if (!movie) {
       // NestJS에서 제공하는 예외 처리
       throw new NotFoundException(`Movie with ID ${id} not found.`);
     }
     return movie;
   }
-  deleteMovie(id: string) {
+  deleteMovie(id: number) {
     this.getOne(id);
-    this.movies = this.movies.filter((movie) => movie.id !== +id); // +string === number
+    this.movies = this.movies.filter((movie) => movie.id !== id); // +string === number
   }
   create(movieData: createMovieDto) {
     this.movies.push({
@@ -27,7 +27,7 @@ export class MoviesService {
     });
   }
 
-  update(id: string, updateMovieData) {
+  update(id: number, updateMovieData) {
     const movie = this.getOne(id);
     this.deleteMovie(id);
     // 과거 데이터에 새로운 데이터 더해서 새로운 movie 만듦
